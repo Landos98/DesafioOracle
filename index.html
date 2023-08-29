@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Encriptador Pablo Landos</title>
+</head>
+<body>
+<h1>Encriptador Pablo Landos</h1>
+<form id="encryption-form">
+  <label for="text">Texto a encriptar:</label><br>
+  <textarea id="text" name="text" rows="4" cols="50"></textarea><br>
+  <label for="shift">Desplazamiento:</label>
+  <input type="number" id="shift" name="shift" min="1" max="25" value="3"><br>
+  <button type="button" id="encrypt-button">Encriptar</button>
+<!-- Dentro del encriptador.html -->
+<a href="desencriptador.html">Ir al Desencriptador</a>
+
+</form>
+<h2>Texto encriptado:</h2>
+<p id="encrypted-text"></p>
+
+<script>
+function encryptPablo(text, shift) {
+  shift = shift % 26;
+  if (shift < 0) {
+    shift = 26 + shift;
+  }
+
+  let encryptedText = '';
+
+  for (let i = 0; i < text.length; i++) {
+    let char = text[i];
+    if (char.match(/[a-z]/i)) {
+      const code = text.charCodeAt(i);
+      if (char === char.toLowerCase()) {
+        char = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+      } else {
+        char = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+      }
+    }
+    encryptedText += char;
+  }
+
+  return encryptedText;
+}
+
+document.getElementById("encrypt-button").addEventListener("click", function() {
+  const text = document.getElementById("text").value;
+  const shift = parseInt(document.getElementById("shift").value, 10);
+  const encryptedText = encryptPablo(text, shift);
+  document.getElementById("encrypted-text").textContent = encryptedText;
+});
+</script>
+</body>
+</html>

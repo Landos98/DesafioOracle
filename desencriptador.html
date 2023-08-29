@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Desencriptador Pablo Landos</title>
+</head>
+<body>
+<h1>Desencriptador Pablo Landos</h1>
+<form id="decryption-form">
+  <label for="encrypted-text">Texto encriptado:</label><br>
+  <textarea id="encrypted-text" name="encrypted-text" rows="4" cols="50"></textarea><br>
+  <label for="shift">Desplazamiento:</label>
+  <input type="number" id="shift" name="shift" min="1" max="25" value="3"><br>
+  <button type="button" id="decrypt-button">Desencriptar</button>
+ <!-- Dentro del decryptor.html -->
+<a href="index.html">Ir al Encriptador</a>
+
+</form>
+<h2>Texto desencriptado:</h2>
+<p id="decrypted-text"></p>
+
+<script>
+function decryptPablo(encryptedText, shift) {
+  shift = shift % 26;
+  if (shift < 0) {
+    shift = 26 + shift;
+  }
+
+  let decryptedText = '';
+
+  for (let i = 0; i < encryptedText.length; i++) {
+    let char = encryptedText[i];
+    if (char.match(/[a-z]/i)) {
+      const code = encryptedText.charCodeAt(i);
+      if (char === char.toLowerCase()) {
+        char = String.fromCharCode(((code - 97 - shift + 26) % 26) + 97);
+      } else {
+        char = String.fromCharCode(((code - 65 - shift + 26) % 26) + 65);
+      }
+    }
+    decryptedText += char;
+  }
+
+  return decryptedText;
+}
+
+document.getElementById("decrypt-button").addEventListener("click", function() {
+  const encryptedText = document.getElementById("encrypted-text").value;
+  const shift = parseInt(document.getElementById("shift").value, 10);
+  const decryptedText = decryptPablo(encryptedText, shift);
+  document.getElementById("decrypted-text").textContent = decryptedText;
+});
+</script>
+</body>
+</html>
